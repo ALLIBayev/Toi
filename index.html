@@ -1070,30 +1070,147 @@
 <!-- Разделитель с орнаментом -->
 <div class="section-divider"></div>
 
-<!-- Уақыт санағышы -->
-<section class="countdown">
+<!-- Мәліметтер + Уақыт санағышы -->
+<section id="details" class="details">
     <div class="container">
-        <h2>Тойға дейін қалған уақыт</h2>
-        <div class="timer" id="countdown-timer">
-            <div class="time-unit">
-                <span class="time-number" id="days">15</span>
-                <span class="time-label">Күн</span>
+        <h2>Той мәліметтері</h2>
+        
+        <!-- Обратный отсчет -->
+        <div class="countdown-timer">
+            <h3>Тойға дейін қалған уақыт</h3>
+            <div class="timer" id="countdown-timer">
+                <div class="time-unit">
+                    <span class="time-number" id="days">00</span>
+                    <span class="time-label">Күн</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="hours">00</span>
+                    <span class="time-label">Сағат</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="minutes">00</span>
+                    <span class="time-label">Минут</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="seconds">00</span>
+                    <span class="time-label">Секунд</span>
+                </div>
             </div>
-            <div class="time-unit">
-                <span class="time-number" id="hours">3</span>
-                <span class="time-label">Сағат</span>
+        </div>
+
+        <!-- Детали мероприятия -->
+        <div class="details-grid">
+            <div class="detail-card">
+                <div class="detail-icon">📅</div>
+                <h3>Күні</h3>
+                <p>2024 жылдың 8 тамыз<br>Жұма күні</p>
             </div>
-            <div class="time-unit">
-                <span class="time-number" id="minutes">40</span>
-                <span class="time-label">Минут</span>
+            <div class="detail-card">
+                <div class="detail-icon">⏰</div>
+                <h3>Уақыты</h3>
+                <p>18:00 - 22:00<br>Кешкі мерекелік ас</p>
             </div>
-            <div class="time-unit">
-                <span class="time-number" id="seconds">21</span>
-                <span class="time-label">Секунд</span>
+            <div class="detail-card">
+                <div class="detail-icon">🏛️</div>
+                <h3>Орын</h3>
+                <p>Тойхана "Астана" мейрамханасы<br>Леңгір қаласы</p>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    /* Стили для таймера */
+    .countdown-timer {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .countdown-timer h3 {
+        font-family: 'Playfair Display', serif;
+        color: #8b5a2b;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+    
+    .timer {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 0 auto;
+        max-width: 600px;
+    }
+    
+    .time-unit {
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(139, 90, 43, 0.3);
+        border-radius: 10px;
+        padding: 1.5rem 1rem;
+        min-width: 80px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .time-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #3d2b1e;
+        display: block;
+    }
+    
+    .time-label {
+        font-size: 0.9rem;
+        color: #8b5a2b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Адаптив для мобильных */
+    @media (max-width: 768px) {
+        .timer {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .time-unit {
+            min-width: 70px;
+            padding: 1rem 0.5rem;
+        }
+        .time-number {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<script>
+    // Обратный отсчет до 8 августа 2024, 18:00
+    function updateCountdown() {
+        const weddingDate = new Date('2024-08-08T18:00:00').getTime();
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+            document.getElementById('countdown-timer').innerHTML = `
+                <div class="time-unit" style="grid-column: 1/-1">
+                    <span style="color:#8b5a2b; font-size:1.5rem;">Той басталды! 🎉</span>
+                </div>
+            `;
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = days;
+        document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+    }
+
+    // Запускаем таймер
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Инициализация сразу
+</script>
 
 <!-- Разделитель с орнаментом -->
 <div class="section-divider"></div>
@@ -1106,12 +1223,12 @@
             <div class="detail-card">
                 <div class="detail-icon">📅</div>
                 <h3>Күні</h3>
-                <p>2024 жылдың 8 тамыз<br>Жума күні</p>
+                <p>2024 жылдың 23 тамыз<br>Жума күні</p>
             </div>
             <div class="detail-card">
                 <div class="detail-icon">⏰</div>
                 <h3>Уақыты</h3>
-                <p>18:00 - 22:00<br>Кешкі мерекелік ас</p>
+                <p>17:00<br>Кешкі мерекелік ас</p>
             </div>
             <div class="detail-card">
                 <div class="detail-icon">🏛️</div>
