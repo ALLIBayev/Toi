@@ -1223,7 +1223,7 @@
             <div class="detail-card">
                 <div class="detail-icon">📅</div>
                 <h3>Күні</h3>
-                <p>2024 жылдың 23 тамыз<br>Жума күні</p>
+                <p>2025 жылдың 23 тамыз<br>Жума күні</p>
             </div>
             <div class="detail-card">
                 <div class="detail-icon">⏰</div>
@@ -1371,31 +1371,83 @@ function sendToWhatsApp() {
 </footer>
 
 <script>
-    // Уақыт санағышы
-    function startCountdown() {
-        const weddingDate = new Date('2024-12-15T18:00:00').getTime();
+  <!-- Уақыт санағышы -->
+<section class="countdown">
+    <div class="container">
+        <h2>Тойға дейін қалған уақыт</h2>
+        <div class="timer" id="countdown-timer">
+            <div class="time-unit">
+                <span class="time-number" id="days">--</span>
+                <span class="time-label">Күн</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-number" id="hours">--</span>
+                <span class="time-label">Сағат</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-number" id="minutes">--</span>
+                <span class="time-label">Минут</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-number" id="seconds">--</span>
+                <span class="time-label">Секунд</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Обновленный уақыт санағышы
+function startCountdown() {
+    // ИЗМЕНИТЕ ЭТУ ДАТУ НА ДАТУ ВАШЕГО МЕРОПРИЯТИЯ
+    // Формат: 'YYYY-MM-DDTHH:MM:SS' (24-часовой формат)
+    const eventDate = new Date('2025-08-23T17:00:00').getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = eventDate - now;
         
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-            
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById('countdown-timer').innerHTML = '<h3 style="color: #8b5a2b;">Той басталды!</h3>';
-                return;
-            }
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        }, 1000);
+        // Если событие уже прошло
+        if (distance < 0) {
+            document.getElementById('countdown-timer').innerHTML = 
+                '<div style="text-align: center; padding: 2rem;"><h3 style="color: #8b5a2b; font-family: \'Playfair Display\', serif; font-size: 2.5rem;">🎉 Той басталды! 🎉</h3></div>';
+            return;
+        }
+        
+        // Вычисляем время
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Обновляем отображение
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        
+        if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+        if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
     }
+    
+    // Обновляем сразу
+    updateCountdown();
+    
+    // Обновляем каждую секунду
+    const timer = setInterval(updateCountdown, 1000);
+    
+    return timer;
+}
+
+// Запускаем счетчик когда страница загружена
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startCountdown);
+} else {
+    startCountdown();
+}
+</script>
 
     // RSVP форма
     document.getElementById('rsvp-form').addEventListener('submit', function(e) {
